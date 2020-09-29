@@ -18,21 +18,26 @@ jobs:
       steps:
         - name: Checkout
           uses: actions/checkout@v2
-        - name: Debug
+        - name: Integration tests
           run: |
-              ls -R . && ls -R ${{github.workspace}} && pwd
-        - name: Robot Framework run tests
-          uses: joonvena/robotframework-docker-action@v0.1
-          env:
-            BROWSER: firefox
-            ROBOT_TESTS_DIR: ${{github.workspace}}/e2e/tests
-            ROBOT_REPORTS_DIR: /home/runner/work/finalLessons/reports
+            docker run \
+              -v ${PWD}/reports:/opt/robotframework/reports:Z \
+              -v ${PWD}/tasks:/opt/robotframework/tests:Z \
+              -v ${PWD}/reports/file://opt/robotframework/temp/reports/file/ \
+              --user $(id -u):$(id -g) \
+              ppodgorsek/robot-framework:latest
+        # - name: Robot Framework run tests
+        #   uses: joonvena/robotframework-docker-action@v0.1
+        #   env:
+        #     BROWSER: firefox
+        #     ROBOT_TESTS_DIR: ${{github.workspace}}/e2e/tests
+        #     ROBOT_REPORTS_DIR: ${{github.workspace}}/reports
         - name: Upload test results
           uses: actions/upload-artifact@v1
           if: always()
           with:
             name: reports
-            path: /home/runner/work/finalLessons/reports
+            path: /opt/robotframework/reports
     deploy_to_heroku:
         runs-on: ubuntu-latest
         name: Deploy to Heroku
