@@ -20,7 +20,7 @@ jobs:
           uses: actions/checkout@v2
         - name: Debug
           run: |
-              mkdir -p ${{github.workspace}}/reports
+              ls -R . && ls -R ${{github.workspace}} && pwd
         - name: Robot Framework run tests
           uses: joonvena/robotframework-docker-action@v0.1
           env:
