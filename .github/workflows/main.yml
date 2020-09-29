@@ -21,9 +21,10 @@ jobs:
         - name: Robot Framework run tests
           uses: joonvena/robotframework-docker-action@v0.1
           env:
-            BROWSER: chrome
+            BROWSER: firefox
             ROBOT_TESTS_DIR: ${{github.workspace}}/e2e/tests
         - name: Debug
+          if: always()
           run: |
               ls -R /opt/robotframework/
         - name: Upload test results
