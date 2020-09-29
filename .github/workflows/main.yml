@@ -18,20 +18,14 @@ jobs:
       steps:
         - name: Checkout
           uses: actions/checkout@v2
-        # - name: Robot Framework run tests
-        #   uses: joonvena/robotframework-docker-action@v0.1
-        #   env:
-        #     BROWSER: chrome
-        #     ROBOT_TESTS_DIR: ${{github.workspace}}/e2e/tests
-        - name: Test
+        - name: Robot Framework run tests
+          uses: joonvena/robotframework-docker-action@v0.1
+          env:
+            BROWSER: chrome
+            ROBOT_TESTS_DIR: ${{github.workspace}}/e2e/tests
+        - name: Debug
           run: |
-            docker run \
-              -v ${PWD}/reports:/opt/robotframework/reports:Z \
-              -v ${PWD}/e2e/tests:/opt/robotframework/tests:Z \
-              -v ${PWD}/reports/file://opt/robotframework/temp/reports/file/ \
-              --user $(id -u):$(id -g) \
-              ppodgorsek/robot-framework:latest
-
+              ls -R /opt/robotframework/
         - name: Upload test results
           uses: actions/upload-artifact@v1
           if: always()
