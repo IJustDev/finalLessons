@@ -32,7 +32,7 @@ jobs:
           if: always()
           with:
             name: reports
-            path: /opt/robotframework/reports
+            path: ${PWD}/reports
     deploy:
         runs-on: ubuntu-latest
         name: Deploy
