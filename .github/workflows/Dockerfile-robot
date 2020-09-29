@@ -1,0 +1,12 @@
+FROM python
+
+ENV RESULT_PATH /opt/robotframework/results
+
+RUN pip3 install robotframework
+
+WORKDIR /opt/robotframework/tests
+
+COPY . .
+
+ENTRYPOINT robot .
+
