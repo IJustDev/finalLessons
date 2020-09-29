@@ -12,9 +12,9 @@ on:
 
 # A workflow  run is made up of one or more jobs that can run sequentially or in parallel
 jobs:       
-    robot_test:
+    test:
       runs-on: ubuntu-latest
-      name: Run Robot Framework Tests
+      name: Integration tests
       steps:
         - name: Checkout
           uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
           run: |
             docker run \
               -v ${PWD}/reports:/opt/robotframework/reports:Z \
-              -v ${PWD}/tasks:/opt/robotframework/tests:Z \
+              -v ${PWD}/e2e/:/opt/robotframework/tests:Z \
               -v ${PWD}/reports/file://opt/robotframework/temp/reports/file/ \
               --user $(id -u):$(id -g) \
               ppodgorsek/robot-framework:latest
@@ -38,9 +38,9 @@ jobs:
           with:
             name: reports
             path: /opt/robotframework/reports
-    deploy_to_heroku:
+    deploy:
         runs-on: ubuntu-latest
-        name: Deploy to Heroku
+        name: Deploy
         steps:
             - name: Checkout
               uses: actions/checkout@v2
